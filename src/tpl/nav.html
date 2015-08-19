@@ -1,0 +1,76 @@
+<nav class="nav">
+  <h1>WHITEOUT.IO</h1>
+  <div class="nav__write">
+    <button class="btn" wo-touch="state.writer.write(); $event.stopPropagation()">Write</button>
+  </div>
+
+  <ul class="nav__folders">
+    <li ng-repeat="folder in account.folders" ng-if="folder.wellknown" ng-hide="folder.type === 'Outbox' && folder.count < 1"
+      class="nav__folder" ng-class="{'nav__folder--open': state.nav.currentFolder === folder}">
+      <a href="#" wo-touch="$event.preventDefault(); navigate($index)">
+        <svg ng-if="folder.type === 'Inbox'" role="presentation">
+          <use xlink:href="#icon-inbox" />
+        </svg>
+        <svg ng-if="folder.type === 'Sent'" role="presentation">
+          <use xlink:href="#icon-sent" />
+        </svg>
+        <svg ng-if="folder.type === 'Outbox'" role="presentation">
+          <use xlink:href="#icon-outbox" />
+        </svg>
+        <svg ng-if="folder.type === 'Drafts'" role="presentation">
+          <use xlink:href="#icon-draft" />
+        </svg>
+        <svg ng-if="folder.type === 'Trash'" role="presentation">
+          <use xlink:href="#icon-delete" />
+        </svg>
+        <svg ng-if="folder.type === 'Flagged'" role="presentation">
+          <use xlink:href="#icon-star" />
+        </svg>
+        {{folder.type === 'Flagged' ? 'Starred' : folder.type}}
+        <span ng-show="folder.count > 0 && folder.type !== 'Sent'" class="nav__counter">{{folder.count}}</span>
+      </a>
+      <!--<button class="btn-icon-very-light">
+        <svg><use xlink:href="#icon-dropdown" /><title>More</title></svg>
+      </button>-->
+    </li>
+  </ul><!--/nav__folders-->
+
+  <ul class="nav__folders">
+    <li ng-repeat="folder in account.folders" ng-if="!folder.wellknown && folder.name !== 'openpgp_keys'"
+      class="nav__folder" ng-class="{'nav__folder--open': state.nav.currentFolder === folder}">
+      <a href="#" wo-touch="$event.preventDefault(); navigate($index)">
+        <svg role="presentation"><use xlink:href="#icon-folder" /></svg>
+        {{folder.name}}
+        <span ng-show="folder.count > 0" class="nav__counter">{{folder.count}}</span>
+      </a>
+    </li>
+  </ul><!--/nav__folders-->
+
+  <ul class="nav__secondary">
+    <li>
+      <a href="#" wo-touch="$event.preventDefault(); state.account.toggle(true)">
+        <svg role="presentation"><use xlink:href="#icon-account" /></svg> Account
+      </a>
+    </li>
+    <li>
+      <a href="#" wo-touch="$event.preventDefault(); state.contacts.toggle(true)">
+        <svg role="presentation"><use xlink:href="#icon-contact" /></svg> Contacts
+      </a>
+    </li>
+    <li>
+      <a href="#" wo-touch="$event.preventDefault(); state.writer.reportBug()">
+        <svg role="presentation"><use xlink:href="#icon-bug" /></svg> Report a bug
+      </a>
+    </li>
+    <li>
+      <a href="#" wo-touch="$event.preventDefault(); state.about.toggle(true)">
+        <svg role="presentation"><use xlink:href="#icon-about" /></svg> About
+      </a>
+    </li>
+    <li>
+      <a href="#" wo-touch="$event.preventDefault(); logout()">
+        <svg role="presentation"><use xlink:href="#icon-logout" /></svg> Logout
+      </a>
+    </li>
+  </ul><!--/nav__secondary-->
+</nav>
